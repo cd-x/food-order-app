@@ -1,8 +1,15 @@
+import { Fragment } from "react";
+import Header from "./components/Layout/Header";
+import Meals from "./components/Meals/Meals";
+
 function App() {
   return (
-    <div className="App">
-      <h2> Food Order App</h2>
-    </div>
+    <Fragment>
+      <Header />
+      <main>
+        <Meals />
+      </main>
+    </Fragment>
   );
 }
 
