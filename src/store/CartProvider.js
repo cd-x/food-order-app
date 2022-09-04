@@ -31,7 +31,29 @@ const cartReducer = (state, action) => {
         totalAmount: updatedTotalAmount,
       };
     case "REMOVE":
-      break;
+      const removingItemIndex = state.items.findIndex(
+        (item) => item.id === action.id
+      );
+      const removingItem = state.items[removingItemIndex];
+      const updatedTotalAmountAfterRemoval =
+        state.totalAmount - removingItem.price;
+      const updatedItem = {
+        ...removingItem,
+        amount: removingItem.amount - 1,
+      };
+      let updatedItemsAfterRemoval;
+      if (updatedItem.amount > 0) {
+        updatedItemsAfterRemoval = [...state.items];
+        updatedItemsAfterRemoval[removingItemIndex] = updatedItem;
+      } else {
+        updatedItemsAfterRemoval = state.items.filter(
+          (item) => item.id !== action.id
+        );
+      }
+      return {
+        items: updatedItemsAfterRemoval,
+        totalAmount: updatedTotalAmountAfterRemoval,
+      };
     default:
       throw new Error("Undefined Action !");
   }
