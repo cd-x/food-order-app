@@ -6,7 +6,7 @@ import CartItem from "./CartItem";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
-  const items = cartCtx.items; //[{ id: "c1", name: "Shushi", price: "99.99", amount: 1 }];
+  const items = cartCtx.items;
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItem = items.length > 0;
 
@@ -22,6 +22,7 @@ const Cart = (props) => {
       {items.map((item) => {
         return (
           <CartItem
+            id={item.id}
             name={item.name}
             price={item.price}
             amount={item.amount}
