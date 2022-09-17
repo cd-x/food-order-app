@@ -53,7 +53,11 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isOrderClicked && <Checkout onCancel={cancelOrderHandler} />}
+      {isOrderClicked && (
+        <div className={classes.addressForm}>
+          <Checkout onCancel={cancelOrderHandler} />{" "}
+        </div>
+      )}
       {!isOrderClicked && (
         <div className={classes.actions}>
           <button
