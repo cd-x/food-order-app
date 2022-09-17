@@ -12,7 +12,7 @@ const AvailableMeals = () => {
         "https://react-http-ee4c9-default-rtdb.firebaseio.com/meals.json"
       );
       const mealsData = await mealsResponse.json();
-      setDummyMeals(mealsData);
+      setDummyMeals(Object.values(mealsData));
     };
 
     fetchData();
