@@ -14,6 +14,21 @@
 
 ![Cart Item](./screenshots/cartItems.jpg)
 
+---
+
+- Customer Address Form
+  ![Customer Info](./screenshots/CustomerForm.png)
+
+---
+
+- Order Placed
+  ![Order Success](./screenshots/OrderPlaced.png)
+
+---
+
+- Firebase Console
+  ![Firebase Console](./screenshots/Firebase.png)
+
 ## Meals DB Example for Firebase
 
 ```javascript
@@ -46,3 +61,5 @@
   }
 }
 ```
+
+### Instructor: Academind
