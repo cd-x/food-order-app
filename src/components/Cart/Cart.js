@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
@@ -7,6 +7,8 @@ import Checkout from "./Checkout";
 
 const Cart = (props) => {
   const [isOrderClicked, setIsOrderClicked] = useState(false);
+  const [orderId, setOrderId] = useState("");
+
   const cartCtx = useContext(CartContext);
   const items = cartCtx.items;
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -29,6 +31,29 @@ const Cart = (props) => {
     setIsOrderClicked(false);
     props.onCloseClick();
   };
+
+  const successModalCloseHandler = () => {
+    setOrderId("");
+    props.onCloseClick();
+  };
+  const orderSubmitHandler = async (customerInfo) => {
+    await fetch(
+      "https://react-http-ee4c9-default-rtdb.firebaseio.com/orders.json",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          customerInfo: customerInfo,
+          orderItems: items,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((order) => {
+        cartCtx.clear();
+        setOrderId(order.name);
+      });
+  };
+
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {items.map((item) => {
@@ -46,7 +71,23 @@ const Cart = (props) => {
     </ul>
   );
 
-  return (
+  const successModal = (
+    <Modal onBackDropClick={props.onCloseClick}>
+      <p>
+        <h5>Order Placed Successfully with Order ID:</h5> <i>{`${orderId}`}</i>
+      </p>
+      <div className={classes.actions}>
+        <button
+          className={classes["button--alt"]}
+          onClick={successModalCloseHandler}
+        >
+          Close
+        </button>
+      </div>
+    </Modal>
+  );
+
+  const cartModal = (
     <Modal onBackDropClick={props.onCloseClick}>
       {cartItems}
       <div className={classes.total}>
@@ -55,7 +96,10 @@ const Cart = (props) => {
       </div>
       {isOrderClicked && (
         <div className={classes.addressForm}>
-          <Checkout onCancel={cancelOrderHandler} />{" "}
+          <Checkout
+            onCancel={cancelOrderHandler}
+            onOrderSubmit={orderSubmitHandler}
+          />
         </div>
       )}
       {!isOrderClicked && (
@@ -74,6 +118,13 @@ const Cart = (props) => {
         </div>
       )}
     </Modal>
+  );
+
+  return (
+    <Fragment>
+      {orderId && successModal}
+      {!orderId && cartModal}
+    </Fragment>
   );
 };
 

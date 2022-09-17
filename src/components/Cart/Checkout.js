@@ -34,12 +34,13 @@ const Checkout = (props) => {
       setFormError("City must not be empty !");
     } else {
       setFormError("");
-      console.log({
-        enteredName,
-        enteredCity,
-        enteredStreet,
-        enteredPostal,
-      });
+      const customerInfo = {
+        name: enteredName,
+        city: enteredCity,
+        street: enteredStreet,
+        postalCode: enteredPostal,
+      };
+      props.onOrderSubmit(customerInfo);
     }
   };
 

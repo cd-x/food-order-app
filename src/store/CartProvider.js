@@ -54,6 +54,8 @@ const cartReducer = (state, action) => {
         items: updatedItemsAfterRemoval,
         totalAmount: updatedTotalAmountAfterRemoval,
       };
+    case "CLEAR":
+      return defaultCartState;
     default:
       throw new Error("Undefined Action !");
   }
@@ -72,11 +74,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
 
+  const clearHandler = () => {
+    dispatchCartAction({ type: "CLEAR" });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemHandler,
     removeItem: removeItemHandler,
+    clear: clearHandler,
   };
 
   return (
